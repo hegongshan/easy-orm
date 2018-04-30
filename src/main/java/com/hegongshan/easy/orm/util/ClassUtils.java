@@ -8,12 +8,12 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.sun.javafx.collections.MappingChange.Map;
 
 public final class ClassUtils {
 
@@ -80,14 +80,14 @@ public final class ClassUtils {
 						Timestamp.class,
 						Time.class,
 						
-						List.class,Set.class,Map.class};
-		return equals(clazz,regularTypes);
+						Collection.class,List.class,Set.class,Map.class};
+		return !equals(clazz,regularTypes);
 	}
 	private static boolean equals(Class<?> clazz,Class<?> ... others) {
 		for(Class<?> other : others) {
 			if(clazz == other)
-				return false;
+				return true;
 		}
-		return true;
+		return false;
 	}
 }

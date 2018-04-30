@@ -52,8 +52,9 @@ public final class Config {
 	}
 
 	private static void requireNotNull(String source, String name) {
-		if (source == null)
+		if (source == null) {
 			throw new ConfigException(
 					"The attribute '" + name + "' is missing in " + Constants.CONFIG_PROPERTIES);
+		}
 	}
 }

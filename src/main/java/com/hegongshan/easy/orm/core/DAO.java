@@ -181,8 +181,9 @@ public class DAO<T> {
 	}
 	
 	private synchronized Connection getConnection() throws SQLException {
-		if(conn == null)
+		if(conn == null) {
 			conn = ds.getConnection();
+		}
 		return conn;
 	}
 	

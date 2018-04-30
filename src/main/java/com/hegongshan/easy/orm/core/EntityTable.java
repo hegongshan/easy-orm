@@ -2,6 +2,8 @@ package com.hegongshan.easy.orm.core;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Set;
 import com.hegongshan.easy.orm.annotation.Column;
 import com.hegongshan.easy.orm.annotation.Id;
 import com.hegongshan.easy.orm.annotation.Table;
+import com.hegongshan.easy.orm.bean.ColumnInfo;
 import com.hegongshan.easy.orm.util.ClassUtils;
 import com.hegongshan.easy.orm.util.StringUtils;
 
@@ -121,6 +124,38 @@ public class EntityTable {
 		} catch (NoSuchFieldException | SecurityException e) {
 			return false;
 		}
+	}
+	
+	public static List<ColumnInfo> getOrderColumn(Class<?> clazz) {
+		Field[] fields = clazz.getDeclaredFields();
+		List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
+		ColumnInfo columnInfo;
+		for(Field field : fields) {
+			if(!isColumn(field))
+				continue;
+			field.setAccessible(true);
+			Column column = field.getAnnotation(Column.class);
+			if(column.orderBy()) {
+				columnInfo = new ColumnInfo();
+				columnInfo.setValue(getColumnName(clazz, field));
+				columnInfo.setPriority(column.priority());
+				columnInfo.setOrder(column.order());
+				columns.add(columnInfo);
+			}
+		}
+		Collections.sort(columns,new Comparator<ColumnInfo>(){
+			@Override
+			public int compare(ColumnInfo c1, ColumnInfo c2) {
+				if(c1.getPriority() == c2.getPriority()) {
+					return 0;
+				} else if (c1.getPriority() > c2.getPriority()) {
+					return 1;
+				} else {
+					return -1;
+				}
+			}
+		});
+		return columns;
 	}
 
 	public static String getColumnName(Object obj, Field field) {

@@ -26,6 +26,8 @@ public @interface Column {
 	
 	boolean orderBy() default false;
 	
-	int order() default 0;
+	Order order() default Order.ASC;
+	
+	int priority() default 0;
 	
 }

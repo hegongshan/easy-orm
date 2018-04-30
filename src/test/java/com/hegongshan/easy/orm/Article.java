@@ -2,6 +2,7 @@ package com.hegongshan.easy.orm;
 
 import com.hegongshan.easy.orm.annotation.Column;
 import com.hegongshan.easy.orm.annotation.Id;
+import com.hegongshan.easy.orm.annotation.Order;
 import com.hegongshan.easy.orm.annotation.Table;
 
 @Table
@@ -11,7 +12,7 @@ public class Article implements java.io.Serializable {
 
 	@Column
 	private String articleTitle;
-	@Column
+	@Column(orderBy=true,order=Order.ASC,priority=2)
 	private java.util.Date gmtModify;
 	@Column
 	private Integer articleClicks;
@@ -25,7 +26,7 @@ public class Article implements java.io.Serializable {
 	private String articleSummary;
 	@Column
 	private Integer articleCommentNum;
-	@Column(allowUpdate=false)
+	@Column(allowUpdate=false,orderBy=true,order=Order.DESC,priority=1)
 	private java.util.Date gmtCreate;
 	@Column(isForeignKey=true)
 	private Integer categoryId;

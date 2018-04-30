@@ -10,6 +10,7 @@ import com.hegongshan.easy.orm.core.EntityTable;
 import com.hegongshan.easy.orm.util.ClassUtils;
 
 public class ResultSetHandler {
+	
 	public static <T> T toBean(Class<T> mappedClass,ResultSet rs) throws SQLException {
 		if(rs.isBeforeFirst())
 			rs.next();
